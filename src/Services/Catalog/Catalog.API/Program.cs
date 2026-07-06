@@ -1,6 +1,10 @@
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container here
+builder.Services.AddMarten(config =>
+{
+    config.Connection(builder.Configuration.GetConnectionString("Database")!);
+}).UseLightweightSessions();
 builder.Services.AddCarter();
 builder.Services.AddMediatR(config =>
 {

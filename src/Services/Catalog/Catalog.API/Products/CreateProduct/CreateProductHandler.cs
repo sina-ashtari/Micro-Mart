@@ -1,4 +1,5 @@
 ﻿
+
 namespace Catalog.API.Products.CreateProduct;
 
 /// <summary>
@@ -17,12 +18,24 @@ public record CreateProductCommand(string Name,List<string> Category, string Des
 /// <param name="Id"></param>
 public record CreateProductResult(Guid Id);
 
+public class CreateProductCommandValidator: AbstractValidator<CreateProductCommand>
+{
+    public CreateProductCommandValidator()
+    {
+        RuleFor(x => x.Name).NotEmpty().WithMessage("Name Is Required");
+        RuleFor(x => x.Category).NotEmpty().WithMessage("Category Is Required");
+        RuleFor(x => x.ImageFile).NotEmpty().WithMessage("ImageFile Is Required");
+        RuleFor(x => x.Price).GreaterThan(0).WithMessage("Price Should Be Greater than zero");
+    }
+}
 
-internal class CreateProductCommandHandler(IDocumentSession session) : ICommandHandler<CreateProductCommand, CreateProductResult>
+internal class CreateProductCommandHandler(IDocumentSession session, ILogger<CreateProductCommandHandler> logger) : ICommandHandler<CreateProductCommand, CreateProductResult>
 {
     public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
     {
         // Bussiness Logical To Create A Product 
+
+        logger.LogInformation("CreateProductCommandHandler.Handle Has Been Called With {@command}.", command);
 
         var product = new Product
         {

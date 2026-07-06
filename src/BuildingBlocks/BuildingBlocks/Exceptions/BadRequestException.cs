@@ -11,6 +11,6 @@
         public BadRequestException(string message, string detail) : base(message)
         {
             Details = detail;
-        }s
+        }
     }
 }

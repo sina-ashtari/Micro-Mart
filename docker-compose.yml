@@ -6,6 +6,8 @@ services:
     depends_on:
       - catalogdb
 
+
+ 
   catalogdb:
     image: postgres:17
     environment:
@@ -17,5 +19,18 @@ services:
     volumes:
       - postgres_catalog:/var/lib/postgresql/data
 
+  basketdb:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: catalogDb
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_catalog:/var/lib/postgresql/data
+
+
 volumes:
   postgres_catalog:
+  postgres_basket:

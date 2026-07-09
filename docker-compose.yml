@@ -28,6 +28,13 @@ services:
       dockerfile: ./src/Services/Catalog/Catalog.API/Dockerfile
     depends_on:
       - catalogdb
+  
+  basket.api:
+    build:
+      context: .
+      dockerfile: ./src/Services/Basket/Basket.API/Dockerfile
+    depends_on:
+      - basketdb
 
   distributedcache:
     image: redis

@@ -1,10 +1,4 @@
 services:
-  catalog.api:
-    build:
-      context: ./src/Services/Catalog/Catalog.API
-      dockerfile: Dockerfile
-    depends_on:
-      - catalogdb
 
   catalogdb:
     image: postgres:17
@@ -17,5 +11,34 @@ services:
     volumes:
       - postgres_catalog:/var/lib/postgresql/data
 
+  basketdb:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: basketDb
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_basket:/var/lib/postgresql/data
+
+  catalog.api:
+    build:
+      context: .
+      dockerfile: ./src/Services/Catalog/Catalog.API/Dockerfile
+    depends_on:
+      - catalogdb
+  
+  basket.api:
+    build:
+      context: .
+      dockerfile: ./src/Services/Basket/Basket.API/Dockerfile
+    depends_on:
+      - basketdb
+
+  distributedcache:
+    image: redis
+
 volumes:
   postgres_catalog:
+  postgres_basket:

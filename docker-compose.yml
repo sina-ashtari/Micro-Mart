@@ -36,6 +36,12 @@ services:
     depends_on:
       - basketdb
 
+
+  discount.grpc:
+    build:
+      context: .
+      dockerfile: ./src/Services/Discount/Discount.Grpc/Dockerfile
+
   distributedcache:
     image: redis
 
